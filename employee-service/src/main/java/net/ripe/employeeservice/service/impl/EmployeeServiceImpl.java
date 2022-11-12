@@ -7,6 +7,7 @@ import net.ripe.employeeservice.dto.EmployeeDto;
 import net.ripe.employeeservice.entity.Employee;
 import net.ripe.employeeservice.mapper.EmployeeMapper;
 import net.ripe.employeeservice.repository.EmployeeRepository;
+import net.ripe.employeeservice.service.APIClient;
 import net.ripe.employeeservice.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private RestTemplate restTemplate;
 
     private WebClient webClient;
+
+    private APIClient apiClient;
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
@@ -53,6 +56,19 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .retrieve()
                 .bodyToMono(DepartmentDto.class)
                 .block();
+
+        APIResponseDto apiResponseDto = new APIResponseDto();
+        apiResponseDto.setEmployee(EmployeeMapper.mapToDto(employee));
+        apiResponseDto.setDepartment(departmentDto);
+
+        return apiResponseDto;
+    }
+
+    @Override
+    public APIResponseDto getEmployeeByIdUsingFeignClient(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).get();
+        DepartmentDto departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
+
 
         APIResponseDto apiResponseDto = new APIResponseDto();
         apiResponseDto.setEmployee(EmployeeMapper.mapToDto(employee));

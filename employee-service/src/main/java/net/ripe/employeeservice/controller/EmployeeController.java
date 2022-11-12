@@ -26,8 +26,13 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getEmployeeByIdUsingRestTemplate(id), HttpStatus.OK);
     }
 
-    @GetMapping("/webclient/{id}")
+    @GetMapping("/web-client/{id}")
     public ResponseEntity<APIResponseDto> getEmployeeByIdUsingWebClient(@PathVariable("id") Long id){
+        return new ResponseEntity<>(employeeService.getEmployeeByIdUsingRestTemplate(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/feign-client/{id}")
+    public ResponseEntity<APIResponseDto> getEmployeeByIdUsingFeignClient(@PathVariable("id") Long id){
         return new ResponseEntity<>(employeeService.getEmployeeByIdUsingRestTemplate(id), HttpStatus.OK);
     }
 

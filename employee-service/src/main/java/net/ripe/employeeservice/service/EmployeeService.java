@@ -10,4 +10,6 @@ public interface EmployeeService {
     APIResponseDto getEmployeeByIdUsingRestTemplate(Long employeeId);
     APIResponseDto getEmployeeByIdUsingWebClient(Long employeeId);
 
+    APIResponseDto getEmployeeByIdUsingFeignClient(Long employeeId);
+
 }
