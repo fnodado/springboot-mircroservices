@@ -2,6 +2,7 @@ package net.ripe.employeeservice.controller;
 
 
 import lombok.AllArgsConstructor;
+import net.ripe.employeeservice.dto.APIResponseDto;
 import net.ripe.employeeservice.dto.EmployeeDto;
 import net.ripe.employeeservice.service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class EmployeeController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long id){
+    public ResponseEntity<APIResponseDto> getEmployeeById(@PathVariable("id") Long id){
         return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
 
