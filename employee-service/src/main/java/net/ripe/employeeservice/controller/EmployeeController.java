@@ -21,9 +21,14 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.saveEmployee(employeeDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<APIResponseDto> getEmployeeById(@PathVariable("id") Long id){
-        return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
+    @GetMapping("/rest-template/{id}")
+    public ResponseEntity<APIResponseDto> getEmployeeByIdUsingRestTemplate(@PathVariable("id") Long id){
+        return new ResponseEntity<>(employeeService.getEmployeeByIdUsingRestTemplate(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/webclient/{id}")
+    public ResponseEntity<APIResponseDto> getEmployeeByIdUsingWebClient(@PathVariable("id") Long id){
+        return new ResponseEntity<>(employeeService.getEmployeeByIdUsingRestTemplate(id), HttpStatus.OK);
     }
 
 }

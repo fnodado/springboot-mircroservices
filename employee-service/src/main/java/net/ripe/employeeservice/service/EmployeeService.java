@@ -7,5 +7,7 @@ public interface EmployeeService {
 
     EmployeeDto saveEmployee(EmployeeDto employeeDto);
 
-    APIResponseDto getEmployeeById(Long employeeId);
+    APIResponseDto getEmployeeByIdUsingRestTemplate(Long employeeId);
+    APIResponseDto getEmployeeByIdUsingWebClient(Long employeeId);
+
 }
