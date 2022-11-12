@@ -1,0 +1,28 @@
+package net.ripe.employeeservice.mapper;
+
+import net.ripe.employeeservice.dto.EmployeeDto;
+import net.ripe.employeeservice.entity.Employee;
+
+public class EmployeeMapper {
+
+
+    public static EmployeeDto mapToDto(Employee employee){
+        EmployeeDto dto = new EmployeeDto();
+        dto.setId(employee.getId());
+        dto.setEmail(employee.getEmail());
+        dto.setFirstName(employee.getFirstName());
+        dto.setLastName(employee.getLastName());
+
+        return dto;
+    }
+
+    public static Employee mapToJpa(EmployeeDto dto){
+        Employee employee = new Employee();
+        employee.setId(dto.getId());
+        employee.setEmail(dto.getEmail());
+        employee.setFirstName(dto.getFirstName());
+        employee.setLastName(dto.getLastName());
+
+        return employee;
+    }
+}
