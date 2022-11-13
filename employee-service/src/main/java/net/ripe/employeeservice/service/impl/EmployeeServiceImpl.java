@@ -1,6 +1,7 @@
 package net.ripe.employeeservice.service.impl;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import net.ripe.employeeservice.dto.APIResponseDto;
 import net.ripe.employeeservice.dto.DepartmentDto;
@@ -10,6 +11,8 @@ import net.ripe.employeeservice.mapper.EmployeeMapper;
 import net.ripe.employeeservice.repository.EmployeeRepository;
 import net.ripe.employeeservice.service.APIClient;
 import net.ripe.employeeservice.service.EmployeeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +23,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+
     private EmployeeRepository employeeRepository;
 
     private RestTemplate restTemplate;
@@ -27,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private WebClient webClient;
 
     private APIClient apiClient;
+
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
@@ -49,9 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return apiResponseDto;
     }
 
-    @CircuitBreaker(name="${spring.application.name}", fallbackMethod = "getDefaultDepartment")
+    //@CircuitBreaker(name="${spring.application.name}", fallbackMethod = "getDefaultDepartment")
+    @Retry(name="${spring.application.name}", fallbackMethod = "getDefaultDepartment")
     @Override
     public APIResponseDto getEmployeeByIdUsingWebClient(Long employeeId) {
+        LOGGER.info("inside getEmployeeById() method");
         Employee employee = employeeRepository.findById(employeeId).get();
         DepartmentDto departmentDto = webClient.get()
                 .uri("http://localhost:9191/api/departments/" + employee.getDepartmentCode())
@@ -80,6 +88,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public APIResponseDto getDefaultDepartment(Long employeeId, Exception exception) {
+        LOGGER.info("inside getDefaultDepartment() method");
         Employee employee = employeeRepository.findById(employeeId).get();
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setDepartmentName("R&D Department");
