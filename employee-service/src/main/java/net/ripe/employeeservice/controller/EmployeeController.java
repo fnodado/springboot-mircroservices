@@ -33,7 +33,7 @@ public class EmployeeController {
 
     @GetMapping("/feign-client/{id}")
     public ResponseEntity<APIResponseDto> getEmployeeByIdUsingFeignClient(@PathVariable("id") Long id){
-        return new ResponseEntity<>(employeeService.getEmployeeByIdUsingRestTemplate(id), HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.getEmployeeByIdUsingFeignClient(id), HttpStatus.OK);
     }
 
 }
