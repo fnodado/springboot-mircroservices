@@ -28,7 +28,7 @@ public class EmployeeController {
 
     @GetMapping("/web-client/{id}")
     public ResponseEntity<APIResponseDto> getEmployeeByIdUsingWebClient(@PathVariable("id") Long id){
-        return new ResponseEntity<>(employeeService.getEmployeeByIdUsingRestTemplate(id), HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.getEmployeeByIdUsingWebClient(id), HttpStatus.OK);
     }
 
     @GetMapping("/feign-client/{id}")

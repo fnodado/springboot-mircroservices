@@ -1,5 +1,6 @@
 package net.ripe.employeeservice.service.impl;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import net.ripe.employeeservice.dto.APIResponseDto;
 import net.ripe.employeeservice.dto.DepartmentDto;
@@ -48,11 +49,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         return apiResponseDto;
     }
 
+    @CircuitBreaker(name="${spring.application.name}", fallbackMethod = "getDefaultDepartment")
     @Override
     public APIResponseDto getEmployeeByIdUsingWebClient(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).get();
         DepartmentDto departmentDto = webClient.get()
-                .uri("http://localhost:8080/api/departments/" + employee.getDepartmentCode())
+                .uri("http://localhost:9191/api/departments/" + employee.getDepartmentCode())
                 .retrieve()
                 .bodyToMono(DepartmentDto.class)
                 .block();
@@ -69,6 +71,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(employeeId).get();
         DepartmentDto departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
 
+
+        APIResponseDto apiResponseDto = new APIResponseDto();
+        apiResponseDto.setEmployee(EmployeeMapper.mapToDto(employee));
+        apiResponseDto.setDepartment(departmentDto);
+
+        return apiResponseDto;
+    }
+
+    public APIResponseDto getDefaultDepartment(Long employeeId, Exception exception) {
+        Employee employee = employeeRepository.findById(employeeId).get();
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setDepartmentName("R&D Department");
+        departmentDto.setDepartmentCode("RD001");
+        departmentDto.setDepartmentDescription("Research and development department");
 
         APIResponseDto apiResponseDto = new APIResponseDto();
         apiResponseDto.setEmployee(EmployeeMapper.mapToDto(employee));
