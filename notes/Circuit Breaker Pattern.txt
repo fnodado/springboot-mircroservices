@@ -1,0 +1,33 @@
+Circuit Breaker Pattern (Close, Open , halp-open)
+Development Steps:
+1. add dependencies ( dependencies: resilience4j, spring-cloud-aop
+2. Using @CircuitBreaker annotation to a method
+	@CircuitBreaker(name="${spring.application.name}", fallbackMethod="getDefaultMethod")
+3. Implement fallback method
+4. Add circuit breaker in config in application properties file
+	#Actuator for circuit breaker
+	management.health.circuitbreakers.enabled=true
+	management.endpoints.web.exposure.include=health
+	management.endpoint.health.show-details=always
+	
+	#Circuit breaker configuration
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.registerHealthIndicator=true
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.failureRateThreshold=50
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.minimumNumberOfCalls=5
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.automaticTransitionFromOpenToHalfOpenEnabled=true
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.waitDurationInOpenState=5s
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.permittedNumberOfCallsInHalfOpenState=3
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.slidingWindowSize=10
+	resilience4j.circuitbreaker.instances.EMPLOYEE-SERVICE.slidingWindowType=COUNT_BASED
+	
+Using @Retry annotation
+Development Steps
+1. Using @Retry annotation 
+	@Retry(name="${spring.application.name}", fallbackMethod = "getDefaultDepartment")
+2. Implement fallback method
+3. add retry in configuration in application properties file
+	#Retry configuration
+	resilience4j.retry.instances.EMPLOYEE-SERVICE.registerHealthIndicator=true
+	resilience4j.retry.instances.EMPLOYEE-SERVICE.masRetryAttempts=5
+	resilience4j.retry.instances.EMPLOYEE-SERVICE.waitDuration=1s
+4. restart microservices

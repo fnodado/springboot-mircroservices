@@ -1,0 +1,13 @@
+Steps to create a springboot microservice
+1. Create microservice using springboot (dependencies: jpa, web, mysql, lombok)
+2. Configure database
+3. Create jpa entity and spring data jpa repository
+4. Create dto and mapper
+5. Build save rest api
+6. Build get rest api
+7. Make rest api call from microservice1 to microservice2
+8. Register microservice as eureka client (dependencies: spring-cloud-eureka-client)
+9. Refactor microservice to user config server (dependencies: spring-cloud-starter-actuator, spring-cloud-starter-config) 
+10. Configure spring cloud bus (dependencies: spring-cloud-starter-bus-amqp)
+11. Configure routes for micorservice in api-gateway
+12. Implement distrubted tracing in microservice (dependencies: spring-cloud-starter-sleuth, spring-cloud-sleuth-zipkin)

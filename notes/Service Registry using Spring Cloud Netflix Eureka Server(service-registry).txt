@@ -1,0 +1,13 @@
+Service Registry using Spring Cloud Netflix Eureka Server(service-registry)
+Development Setup (dependencies: spring-cloud-starter-netflix-eureka-server)
+1. Create spring boot microservice
+2. Add @EnableEurekaServer annotation
+3. Disable Eureka Server as Client (apply in application.properties file)
+	spring.application.name=SERVICE-REGISTRY
+	server.port=8761
+	eureka.client.register-with-eureka=false
+	eureka.client.fetch-registry=false
+4. Launch Eureka
+5. Register your microservices as Eureka Client ( @EnableEurekaClient)
+6. Run your microservice
+7. Check your microservices in eureka 

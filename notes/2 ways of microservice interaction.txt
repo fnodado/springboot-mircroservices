@@ -1,0 +1,8 @@
+2 ways for microservice communication
+1. Asynchronous
+	example: kafka, rabbitmq
+2. Synchronous
+	3 ways
+		1. RestTemplate
+		2. WebClient
+		3. FeignClient
