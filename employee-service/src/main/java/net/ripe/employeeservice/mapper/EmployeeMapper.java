@@ -13,6 +13,7 @@ public class EmployeeMapper {
         dto.setFirstName(employee.getFirstName());
         dto.setLastName(employee.getLastName());
         dto.setDepartmentCode(employee.getDepartmentCode());
+        dto.setOrganizationCode(employee.getOrganizationCode());
 
         return dto;
     }
@@ -24,6 +25,7 @@ public class EmployeeMapper {
         employee.setFirstName(dto.getFirstName());
         employee.setLastName(dto.getLastName());
         employee.setDepartmentCode(dto.getDepartmentCode());
+        employee.setOrganizationCode(dto.getOrganizationCode());
 
         return employee;
     }
